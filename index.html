@@ -58,6 +58,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-se
 
 .warn{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:13px 18px;font-size:13px;color:#92400e;line-height:1.7;margin-bottom:20px;display:flex;gap:11px;align-items:flex-start}
 .warn-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.insight{background:var(--blue-l);border:1px solid #bfdbfe;border-radius:10px;padding:13px 18px;font-size:13px;color:#1e40af;line-height:1.7;margin-bottom:20px;display:flex;gap:11px;align-items:flex-start}
+.insight-icon{font-size:15px;flex-shrink:0;margin-top:1px}
 
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
@@ -67,19 +69,19 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-se
 .card-title{font-size:13px;font-weight:500;color:var(--txt2);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
 .card-title small{font-size:11px;color:var(--txt3);font-weight:400}
 
-.sc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-.sc-lbl{font-size:11px;font-weight:500;color:var(--txt3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
-.sc-val{font-size:14px;font-weight:600;color:var(--txt);line-height:1.5}
-.sc-sub{font-size:11px;color:var(--txt3);margin-top:2px}
 
 .legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 .li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--txt2)}
 .ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-.donut-wrap{position:relative;width:185px;height:185px;margin:0 auto}
-.donut-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
-.donut-pct{font-size:28px;font-weight:700;color:var(--red);letter-spacing:-.04em;line-height:1}
-.donut-lbl{font-size:11px;color:var(--txt3);margin-top:3px}
+.heatmap-legend{display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.hm-lo,.hm-hi{font-size:10px;color:var(--txt3)}
+.hm-bar{flex:1;height:8px;border-radius:4px;background:linear-gradient(to right,#f3f4f6,#a7f3d0,#059669)}
+.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.hm-cell{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;position:relative;transition:transform .1s}
+.hm-cell:hover{transform:scale(1.12);z-index:1}
+.hm-rate{font-size:11px;font-weight:600;color:var(--txt);line-height:1}
+.hm-date{font-size:9px;color:var(--txt3);margin-top:2px}
 
 .tc{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
 .tc-head{padding:15px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
@@ -188,19 +190,16 @@ tr:hover td{background:#fafbfc}
     <div id="warn-box"></div>
     <div class="g2">
       <div class="card">
-        <div class="card-title">每日采纳率趋势<small style="display:flex;gap:10px"><span style="color:#2563eb">● W1</span><span style="color:#ef4444">● W2</span></small></div>
+        <div class="card-title">每日采纳率趋势</div>
         <div style="position:relative;height:215px"><canvas id="c-daily"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">整体状态分布</div>
-        <div class="legend" id="donut-legend"></div>
-        <div class="donut-wrap">
-          <canvas id="c-donut"></canvas>
-          <div class="donut-c"><div class="donut-pct" id="donut-pct"></div><div class="donut-lbl">整体采纳率</div></div>
-        </div>
+        <div class="card-title">每日采纳率热力图</div>
+        <div class="heatmap-legend"><span class="hm-lo">0%</span><span class="hm-bar"></span><span class="hm-hi">100%</span></div>
+        <div class="heatmap-grid" id="heatmap-grid"></div>
       </div>
     </div>
-    <div class="g5" id="stat-cards"></div>
+    <div id="insight-bar"></div>
   </div>
 
   <!-- 使用统计 -->
@@ -211,8 +210,8 @@ tr:hover td{background:#fafbfc}
         <div style="position:relative;height:340px"><canvas id="c-optbar"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">建议量 × 采纳率<small>气泡大小 = 建议总量</small></div>
-        <div style="position:relative;height:340px"><canvas id="c-bubble"></canvas></div>
+        <div class="card-title">建议状态构成<small>各优化师建议流向占比</small></div>
+        <div style="position:relative;height:340px"><canvas id="c-stacked"></canvas></div>
       </div>
     </div>
     <div class="tc">
@@ -405,41 +404,64 @@ function renderOverview(D, meta, PD, prevMeta) {
   document.getElementById('warn-box').innerHTML = warnHtml
     ? `<div class="warn"><div class="warn-icon">⚠️</div><div>${warnHtml}</div></div>` : '';
 
-  // Donut legend
-  document.getElementById('donut-legend').innerHTML = `
-    <span class="li"><span class="ld" style="background:#10b981"></span>自动采纳 ${fmt(D.auto)}条（${n((D.auto/D.total*100).toFixed(1),0)}%）</span>
-    <span class="li"><span class="ld" style="background:#3b82f6"></span>手动采纳 ${fmt(D.manual)}条（${n((D.manual/D.total*100).toFixed(1),0)}%）</span>
-    <span class="li"><span class="ld" style="background:#f87171"></span>手动拒绝 ${fmt(D.reject)}条（${n((D.reject/D.total*100).toFixed(1),0)}%）</span>
-    <span class="li"><span class="ld" style="background:#e5e7eb"></span>无操作 ${fmt(D.noop)}条（${n(D.noop_rate,0)}%）</span>
-    <span class="li"><span class="ld" style="background:#c4b5fd"></span>已过期 ${fmt(D.expired)}条（${n(D.exp_rate,0)}%）</span>`;
-  document.getElementById('donut-pct').textContent = `${n(D.adopt_rate,0)}%`;
+  // Heatmap
+  function hmColor(rate) {
+    if (rate <= 0) return '#f3f4f6';
+    const t = Math.min(rate / 60, 1);
+    const r = Math.round(243 - t * (243 - 5));
+    const g = Math.round(244 - t * (244 - 150));
+    const b = Math.round(246 - t * (246 - 105));
+    return `rgb(${r},${g},${b})`;
+  }
+  document.getElementById('heatmap-grid').innerHTML = daily.map(d => {
+    const txtColor = d.rate >= 30 ? '#fff' : 'var(--txt)';
+    return `<div class="hm-cell" style="background:${hmColor(d.rate)}" title="${d.date} · 采纳率${d.rate}% · ${d.adopted}/${d.total}条">
+      <span class="hm-rate" style="color:${txtColor}">${d.rate}%</span>
+      <span class="hm-date">${d.date}</span>
+    </div>`;
+  }).join('');
 
-  // Stat cards
-  const prevAdoptRate = PD ? `${PD.adopt_rate}%` : '—';
-  const prevTotal = PD ? fmt(PD.total) : '—';
-  const adoptChange = PD ? (D.adopt_rate - PD.adopt_rate).toFixed(1) : null;
-  const adoptChangeHtml = adoptChange !== null
-    ? (adoptChange > 0 ? `<span style="color:var(--green)">↑ ${adoptChange}%</span>` : adoptChange < 0 ? `<span style="color:var(--red)">↓ ${Math.abs(adoptChange)}%</span>` : '<span style="color:var(--txt3)">持平</span>')
-    : '';
-
-  document.getElementById('stat-cards').innerHTML = `
-    <div class="sc"><div class="sc-lbl">上期采纳率</div><div class="sc-val" style="color:var(--txt2)">${prevAdoptRate}</div><div class="sc-sub">${PD ? (prevMeta?.label || '上期') : '无上期数据'}</div></div>
-    <div class="sc"><div class="sc-lbl">采纳率变化</div><div class="sc-val">${adoptChangeHtml || '—'}</div><div class="sc-sub">环比</div></div>
-    <div class="sc"><div class="sc-lbl">手动拒绝</div><div class="sc-val" style="color:var(--orange)">${fmt(D.reject)}条（${n(D.reject_rate,0)}%）</div><div class="sc-sub">${PD ? '上期 ' + fmt(PD.reject) + '条' : ''}</div></div>
-    <div class="sc"><div class="sc-lbl">已过期建议</div><div class="sc-val" style="color:var(--purple)">${fmt(D.expired)}条（${n(D.exp_rate,0)}%）</div><div class="sc-sub">${PD ? '上期 ' + fmt(PD.expired) + '条' : ''}</div></div>
-    <div class="sc"><div class="sc-lbl">手动采纳</div><div class="sc-val">${fmt(D.manual)}条</div><div class="sc-sub">${PD ? '上期 ' + fmt(PD.manual) + '条' : ''}</div></div>`;
+  // Insight bar
+  if (PD && prevMeta) {
+    const adoptDiff = +(D.adopt_rate - PD.adopt_rate).toFixed(1);
+    const totalDiff = D.total - PD.total;
+    const rejDiff = D.reject - PD.reject;
+    const expDiff = D.expired - PD.expired;
+    const manDiff = D.manual - PD.manual;
+    const arrow = (v, inv) => {
+      if (v === 0) return '持平';
+      const up = v > 0;
+      const good = inv ? !up : up;
+      return `<b style="color:${good ? 'var(--green)' : 'var(--red)'};">${up ? '↑' : '↓'} ${Math.abs(v)}</b>`;
+    };
+    const arrowPct = (v, inv) => {
+      if (v === 0) return '持平';
+      const up = v > 0;
+      const good = inv ? !up : up;
+      return `<b style="color:${good ? 'var(--green)' : 'var(--red)'};">${up ? '↑' : '↓'} ${Math.abs(v)}%</b>`;
+    };
+    document.getElementById('insight-bar').innerHTML = `
+      <div class="insight"><div class="insight-icon">📊</div><div>
+        与上期（${prevMeta.label}）相比：采纳率 ${arrowPct(adoptDiff, false)}（${PD.adopt_rate}% → ${D.adopt_rate}%），
+        建议量 ${arrow(totalDiff, true)}条（${fmt(PD.total)} → ${fmt(D.total)}），
+        手动拒绝 ${arrow(rejDiff, true)}条，
+        手动采纳 ${arrow(manDiff, false)}条，
+        已过期 ${arrow(expDiff, true)}条。
+      </div></div>`;
+  } else {
+    document.getElementById('insight-bar').innerHTML = '';
+  }
 
   // Daily chart
   const daily = D.daily || [];
-  const half = Math.ceil(daily.length / 2);
   charts.daily = new Chart(document.getElementById('c-daily'), {
     type: 'line',
     data: {
       labels: daily.map(d => d.date),
       datasets: [{
         label: '采纳率', data: daily.map(d => d.rate),
-        segment: { borderColor: c => c.p0DataIndex >= half ? '#ef4444' : '#2563eb' },
-        pointBackgroundColor: daily.map((_, i) => i >= half ? '#ef4444' : '#2563eb'),
+        borderColor: '#2563eb',
+        pointBackgroundColor: '#2563eb',
         backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 4.5, pointHoverRadius: 7, fill: false, tension: .32
       }]
     },
@@ -459,16 +481,6 @@ function renderOverview(D, meta, PD, prevMeta) {
     }
   });
 
-  // Donut
-  charts.donut = new Chart(document.getElementById('c-donut'), {
-    type: 'doughnut',
-    data: {
-      labels: ['自动采纳','手动采纳','手动拒绝','无操作','已过期'],
-      datasets: [{ data: [n(D.auto,0), n(D.manual,0), n(D.reject,0), n(D.noop,0), n(D.expired,0)],
-        backgroundColor: ['#10b981','#3b82f6','#f87171','#e5e7eb','#c4b5fd'], borderWidth: 0, hoverOffset: 0 }]
-    },
-    options: { responsive: true, maintainAspectRatio: true, cutout: '72%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-  });
 }
 
 // ── Optimizer ──
@@ -493,18 +505,27 @@ function renderOptimizer(D, PD) {
     }
   });
 
-  charts.bubble = new Chart(document.getElementById('c-bubble'), {
-    type: 'bubble',
-    data: { datasets: [{ data: opts.map(o => ({ x: o.total, y: o.rate, r: Math.max(5, Math.sqrt(o.total) * 1.1) })),
-      backgroundColor: opts.map(o => o.rate >= 70 ? 'rgba(16,185,129,.5)' : o.rate >= 40 ? 'rgba(245,158,11,.5)' : 'rgba(239,68,68,.5)'), borderColor: 'transparent' }] },
-    options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: c => {
-        const o = opts[c.dataIndex];
-        return o ? [`${o.name.replace(/\(.*?\)/, '').trim()}`, `建议量: ${o.total}条 · 采纳率: ${o.rate}%`, `拒绝: ${n(o.reject,0)}条 · 过期: ${n(o.expired,0)}条`] : '';
-      } } } },
+  charts.stacked = new Chart(document.getElementById('c-stacked'), {
+    type: 'bar',
+    data: {
+      labels: oN,
+      datasets: [
+        { label: '自动采纳', data: opts.map(o => o.total ? +(o.auto / o.total * 100).toFixed(1) : 0), backgroundColor: '#10b981', borderRadius: 2, borderSkipped: false },
+        { label: '手动采纳', data: opts.map(o => o.total ? +((o.manual || 0) / o.total * 100).toFixed(1) : 0), backgroundColor: '#3b82f6', borderRadius: 0, borderSkipped: false },
+        { label: '手动拒绝', data: opts.map(o => o.total ? +((o.reject || 0) / o.total * 100).toFixed(1) : 0), backgroundColor: '#f87171', borderRadius: 0, borderSkipped: false },
+        { label: '已过期', data: opts.map(o => o.total ? +((o.expired || 0) / o.total * 100).toFixed(1) : 0), backgroundColor: '#c4b5fd', borderRadius: 0, borderSkipped: false },
+        { label: '无操作', data: opts.map(o => o.total ? +((o.noop || 0) / o.total * 100).toFixed(1) : 0), backgroundColor: '#e5e7eb', borderRadius: 2, borderSkipped: false },
+      ]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } },
+        tooltip: { ...tip, callbacks: { label: c => `${c.dataset.label}: ${c.parsed.x}%` } }
+      },
       scales: {
-        x: { title: { display: true, text: '建议总量（条）', color: '#9ca3af', font: { size: 11 } }, ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } },
-        y: { min: 0, max: 100, title: { display: true, text: '采纳率（%）', color: '#9ca3af', font: { size: 11 } }, ticks: { callback: v => v + '%', color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } }
+        x: { stacked: true, min: 0, max: 100, ticks: { callback: v => v + '%', color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } },
+        y: { stacked: true, ticks: { color: '#374151', font: { size: 11.5 } }, grid: { display: false }, border: { display: false } }
       }
     }
   });
