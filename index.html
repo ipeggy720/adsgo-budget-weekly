@@ -232,7 +232,23 @@ tr:hover td{background:#fafbfc}
 
   <!-- 品牌统计 -->
   <div id="p-brands" class="page">
-    <div class="g3" id="key-brands"></div>
+    <div class="kpi-row" id="brand-kpi-row"></div>
+    <div class="g2" style="margin-bottom:20px">
+      <div class="tc">
+        <div class="tc-head"><h3>Top 5 最佳品牌</h3><p>按采纳率排序 · ≥10条记录</p></div>
+        <table>
+          <thead><tr><th>#</th><th>品牌</th><th>优化师</th><th class="r">采纳率</th><th class="r">环比</th><th class="r">建议量</th></tr></thead>
+          <tbody id="brand-top5"></tbody>
+        </table>
+      </div>
+      <div class="tc">
+        <div class="tc-head"><h3>Top 5 需关注品牌</h3><p>零采纳 · 按建议体量排序</p></div>
+        <table>
+          <thead><tr><th>#</th><th>品牌</th><th>优化师</th><th class="r">建议量</th><th class="r">无操作</th><th>问题</th></tr></thead>
+          <tbody id="brand-bottom5"></tbody>
+        </table>
+      </div>
+    </div>
     <div class="tc">
       <div class="tc-head">
         <h3>所有品牌采纳率 <span style="font-weight:400;color:var(--txt3);font-size:12px">（≥10条记录）</span></h3>
@@ -342,7 +358,7 @@ function render(period, prev) {
   destroyCharts();
   renderOverview(D, meta, PD, prev?.meta);
   renderOptimizer(D, PD);
-  renderBrands(D);
+  renderBrands(D, PD);
   renderComments(D, REJECTS);
 }
 
@@ -520,28 +536,94 @@ function renderOptimizer(D, PD) {
 }
 
 // ── Brands ──
-function renderBrands(D) {
-  const keyBrands = D.key_brands || [];
-  const colorMap = { green: 'var(--green)', red: 'var(--red)', amber: 'var(--amber)' };
-  const bgMap = { green: 'var(--green-l)', red: 'var(--red-l)', amber: 'var(--amber-l)' };
-
-  document.getElementById('key-brands').innerHTML = keyBrands.map(kb => `
-    <div class="kc">
-      <div class="kc-nm">${kb.name} · ${kb.opt}</div>
-      <div class="kc-rate" style="color:${colorMap[kb.rate_color] || 'var(--txt)'}">${kb.rate}</div>
-      <div class="kc-meta">${kb.meta}</div>
-      <span class="badge" style="background:${bgMap[kb.badge_color] || '#f3f4f6'};color:${colorMap[kb.badge_color] || 'var(--txt3)'}">${kb.badge}</span>
-      <div class="kc-desc">${kb.desc}</div>
-    </div>`).join('');
-
+function renderBrands(D, PD) {
   const brands = D.brands || [];
+  const prevBrands = PD ? (PD.brands || []) : [];
+  const prevMap = {};
+  prevBrands.forEach(b => { prevMap[b.name] = b; });
+
+  const curNames = new Set(brands.map(b => b.name));
+  const prevNames = new Set(prevBrands.map(b => b.name));
+  const newBrands = brands.filter(b => !prevNames.has(b.name));
+  const goneBrands = prevBrands.filter(b => !curNames.has(b.name));
+
+  const high = brands.filter(b => b.rate >= 80);
+  const mid = brands.filter(b => b.rate > 0 && b.rate < 80);
+  const zero = brands.filter(b => b.rate === 0);
+
+  const prevHigh = prevBrands.filter(b => b.rate >= 80);
+  const prevMid = prevBrands.filter(b => b.rate > 0 && b.rate < 80);
+  const prevZero = prevBrands.filter(b => b.rate === 0);
+
+  function tierChip(cur, prev) {
+    if (!PD) return '';
+    const d = cur - prev;
+    if (d === 0) return '<span class="chip" style="background:#f3f4f6;color:#6b7280">持平</span>';
+    if (d > 0) return `<span class="chip r">↑ ${d}</span>`;
+    return `<span class="chip g">↓ ${Math.abs(d)}</span>`;
+  }
+  function tierChipInv(cur, prev) {
+    if (!PD) return '';
+    const d = cur - prev;
+    if (d === 0) return '<span class="chip" style="background:#f3f4f6;color:#6b7280">持平</span>';
+    if (d > 0) return `<span class="chip g">↑ ${d}</span>`;
+    return `<span class="chip r">↓ ${Math.abs(d)}</span>`;
+  }
+
+  document.getElementById('brand-kpi-row').innerHTML = `
+    <div class="kpi"><div class="kpi-lbl">品牌总数</div><div class="kv blue">${brands.length}</div><div class="kpi-meta">${PD ? '上期 ' + prevBrands.length + ' 个' : ''}</div></div>
+    <div class="kpi"><div class="kpi-lbl">高采纳 ≥80%</div><div class="kv green">${high.length}</div><div class="kpi-meta">${tierChipInv(high.length, prevHigh.length)} ${high.map(b=>b.name).join('、')}</div></div>
+    <div class="kpi"><div class="kpi-lbl">中等 1-79%</div><div class="kv amber">${mid.length}</div><div class="kpi-meta">${tierChip(mid.length, prevMid.length)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">零采纳</div><div class="kv red">${zero.length}</div><div class="kpi-meta">${tierChip(zero.length, prevZero.length)} 占比 ${(zero.length / brands.length * 100).toFixed(0)}%</div></div>
+    <div class="kpi"><div class="kpi-lbl">新增 / 消失</div><div class="kv" style="color:var(--txt)">+${newBrands.length} / -${goneBrands.length}</div><div class="kpi-meta">${newBrands.length ? '新增: ' + newBrands.slice(0,3).map(b=>b.name).join('、') + (newBrands.length > 3 ? '…' : '') : '无新增'}</div></div>`;
+
+  // Top5 best brands (rate>0, total>=10, sorted by rate desc)
+  const top5 = brands.filter(b => b.rate > 0 && b.total >= 10)
+    .sort((a, b) => b.rate - a.rate).slice(0, 5);
+  document.getElementById('brand-top5').innerHTML = top5.map((b, i) => {
+    const prev = prevMap[b.name];
+    const rateDiff = prev != null ? +(b.rate - prev.rate).toFixed(1) : null;
+    const diffHtml = rateDiff == null ? '<span style="color:var(--txt3)">—</span>'
+      : rateDiff === 0 ? '<span class="wb wn">持平</span>'
+      : rateDiff > 0 ? `<span class="wb wg">↑ ${rateDiff}%</span>`
+      : `<span class="wb wr2">↓ ${Math.abs(rateDiff)}%</span>`;
+    const rc = b.rate >= 80 ? 'var(--green)' : 'var(--amber)';
+    return `<tr>
+      <td style="width:28px;color:var(--txt3)">${i + 1}</td>
+      <td class="nm">${b.name}</td>
+      <td style="font-size:12px;color:var(--txt2)">${b.opt}</td>
+      <td class="r"><b style="color:${rc}">${b.rate}%</b></td>
+      <td class="r">${diffHtml}</td>
+      <td class="r">${b.total}</td>
+    </tr>`;
+  }).join('');
+
+  // Bottom5 worst brands (rate=0, sorted by total desc)
+  const bottom5 = brands.filter(b => b.rate === 0 && b.total >= 10)
+    .sort((a, b) => b.total - a.total).slice(0, 5);
+  document.getElementById('brand-bottom5').innerHTML = bottom5.map((b, i) => {
+    const isNew = !prevNames.has(b.name);
+    const tag = isNew ? '<span class="wb wr2">新增</span>'
+      : (prevMap[b.name] && prevMap[b.name].rate === 0) ? '<span class="wb wn">连续零采纳</span>'
+      : '<span class="wb wa">新降至零</span>';
+    return `<tr>
+      <td style="width:28px;color:var(--txt3)">${i + 1}</td>
+      <td class="nm">${b.name}</td>
+      <td style="font-size:12px;color:var(--txt2)">${b.opt}</td>
+      <td class="r">${b.total}</td>
+      <td class="r">${b.noop}</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join('');
+
+  // All brands bar chart (unchanged)
   document.getElementById('brand-list').innerHTML = brands.map(b => {
     const aw = (b.auto / b.total * 100).toFixed(1), mw = (b.manual / b.total * 100).toFixed(1);
     const rw = (b.reject / b.total * 100).toFixed(1), ew = (b.expired / b.total * 100).toFixed(1);
     const c = b.rate >= 80 ? 'var(--green)' : b.rate >= 30 ? 'var(--amber)' : 'var(--red)';
     const fc = '#10b981';
     return `<div class="brand-row">
-      <div class="${b.is_key ? 'bnm key' : 'bnm'}" title="${b.name} · ${b.opt}">${b.is_key ? '★ ' : ''}<b style="font-weight:${b.is_key ? 600 : 400}">${b.name}</b></div>
+      <div class="bnm" title="${b.name} · ${b.opt}"><b>${b.name}</b></div>
       <div class="btrack">
         <div class="ba" style="width:${aw}%;background:${fc}"></div>
         <div class="bm" style="width:${mw}%"></div>
