@@ -538,8 +538,8 @@ function renderBrands(D) {
   document.getElementById('brand-list').innerHTML = brands.map(b => {
     const aw = (b.auto / b.total * 100).toFixed(1), mw = (b.manual / b.total * 100).toFixed(1);
     const rw = (b.reject / b.total * 100).toFixed(1), ew = (b.expired / b.total * 100).toFixed(1);
-    const c = b.rate >= 80 ? 'var(--green)' : b.rate >= 50 ? 'var(--amber)' : 'var(--red)';
-    const fc = b.rate >= 80 ? '#10b981' : b.rate >= 50 ? '#f59e0b' : '#f87171';
+    const c = b.rate >= 80 ? 'var(--green)' : b.rate >= 30 ? 'var(--amber)' : 'var(--red)';
+    const fc = '#10b981';
     return `<div class="brand-row">
       <div class="${b.is_key ? 'bnm key' : 'bnm'}" title="${b.name} · ${b.opt}">${b.is_key ? '★ ' : ''}<b style="font-weight:${b.is_key ? 600 : 400}">${b.name}</b></div>
       <div class="btrack">
