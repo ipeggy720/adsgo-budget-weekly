@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>建议采纳分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f6f8;--card:#fff;--border:#e8eaed;
+  --txt:#111827;--txt2:#4b5563;--txt3:#9ca3af;
+  --blue:#2563eb;--blue-l:#eff6ff;
+  --green:#059669;--green-l:#ecfdf5;
+  --amber:#d97706;--amber-l:#fffbeb;
+  --red:#dc2626;--red-l:#fef2f2;
+  --purple:#7c3aed;--purple-l:#f5f3ff;
+  --orange:#ea580c;--orange-l:#fff7ed;
+}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5}
+
+.topbar{position:sticky;top:0;z-index:200;background:var(--card);border-bottom:1px solid var(--border);padding:0 32px}
+.topbar-in{max-width:1360px;margin:0 auto;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.topbar-left{display:flex;align-items:center;gap:14px;min-width:0}
+.topbar-title{font-size:13px;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-title b{color:var(--txt);font-weight:600}
+
+.period-select{
+  appearance:none;-webkit-appearance:none;
+  background:var(--blue-l) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232563eb'/%3E%3C/svg%3E") no-repeat right 10px center;
+  border:1px solid #bfdbfe;border-radius:7px;
+  padding:5px 28px 5px 12px;
+  font-size:13px;font-weight:500;color:var(--blue);
+  font-family:inherit;cursor:pointer;
+  transition:all .15s;flex-shrink:0;
+}
+.period-select:hover{border-color:var(--blue);background-color:#dbeafe}
+.period-select:focus{outline:none;box-shadow:0 0 0 2px rgba(37,99,235,.25)}
+
+.tabs{display:flex;flex-shrink:0}
+.tab{background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;padding:0 18px;height:52px;font-size:13px;font-family:inherit;color:var(--txt3);transition:all .15s}
+.tab:hover{color:var(--txt2)}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+
+.wrap{max-width:1360px;margin:0 auto;padding:24px 32px 72px}
+.page{display:none}.page.on{display:block}
+
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
+.kpi-lbl{font-size:11px;font-weight:500;color:var(--txt3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:9px}
+.kv{font-size:32px;font-weight:700;line-height:1;letter-spacing:-.03em;margin-bottom:7px}
+.kv.blue{color:var(--blue)}.kv.amber{color:var(--amber)}.kv.green{color:var(--green)}.kv.red{color:var(--red)}.kv.purple{color:var(--purple)}.kv.orange{color:var(--orange)}
+.kpi-meta{font-size:12px;color:var(--txt3);line-height:1.6}
+.kpi-meta b{color:var(--txt2);font-weight:500}
+.chip{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:4px;vertical-align:middle}
+.chip.r{background:var(--red-l);color:var(--red)}.chip.g{background:var(--green-l);color:var(--green)}
+
+.warn{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:13px 18px;font-size:13px;color:#92400e;line-height:1.7;margin-bottom:20px;display:flex;gap:11px;align-items:flex-start}
+.warn-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px}
+.card-title{font-size:13px;font-weight:500;color:var(--txt2);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.card-title small{font-size:11px;color:var(--txt3);font-weight:400}
+
+.sc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.sc-lbl{font-size:11px;font-weight:500;color:var(--txt3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.sc-val{font-size:14px;font-weight:600;color:var(--txt);line-height:1.5}
+.sc-sub{font-size:11px;color:var(--txt3);margin-top:2px}
+
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--txt2)}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.donut-wrap{position:relative;width:185px;height:185px;margin:0 auto}
+.donut-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.donut-pct{font-size:28px;font-weight:700;color:var(--red);letter-spacing:-.04em;line-height:1}
+.donut-lbl{font-size:11px;color:var(--txt3);margin-top:3px}
+
+.tc{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.tc-head{padding:15px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.tc-head h3{font-size:14px;font-weight:600;color:var(--txt)}
+.tc-head p{font-size:12px;color:var(--txt3)}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;font-weight:500;color:var(--txt3);text-align:left;padding:9px 16px;border-bottom:1px solid var(--border);white-space:nowrap;letter-spacing:.03em;text-transform:uppercase}
+th.r{text-align:right}
+td{padding:8px 16px;border-bottom:1px solid #f9fafb;font-size:13px;vertical-align:middle}
+td.r{text-align:right;font-size:12px;color:var(--txt2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.nm{font-weight:500;color:var(--txt)}.nm-sub{font-size:11px;color:var(--txt3);font-weight:400}
+
+.mbar{display:flex;align-items:center;gap:8px}
+.mbar-track{width:100px;height:5px;background:#f3f4f6;border-radius:3px;overflow:hidden}
+.mbar-fill{height:100%;border-radius:3px}
+.rval{font-size:13px;font-weight:600;min-width:40px}
+
+.wb{display:inline-block;font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px}
+.wg{background:var(--green-l);color:var(--green)}.wa{background:var(--amber-l);color:var(--amber)}
+.wr2{background:var(--red-l);color:var(--red)}.wn{background:#f3f4f6;color:var(--txt3)}
+
+.brand-list{padding:14px 22px}
+.brand-row{display:flex;align-items:center;gap:10px;padding:3.5px 0}
+.bnm{font-size:11.5px;color:var(--txt2);width:200px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bnm.key{color:var(--blue);font-weight:600}
+.btrack{flex:1;height:14px;background:#f3f4f6;border-radius:4px;overflow:hidden;display:flex}
+.ba{height:100%}.bm{height:100%;background:#3b82f6}.br3{height:100%;background:#f87171}.bex{height:100%;background:#c4b5fd}
+.bpct{font-size:11.5px;font-weight:600;width:32px;text-align:right}
+.bcnt{font-size:10.5px;color:var(--txt3);width:30px;text-align:right}
+
+.kc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:box-shadow .15s}
+.kc:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.kc-nm{font-size:12px;color:var(--txt3);margin-bottom:4px}
+.kc-rate{font-size:38px;font-weight:700;letter-spacing:-.05em;line-height:1;margin-bottom:4px}
+.kc-meta{font-size:11px;color:var(--txt3);margin-bottom:10px}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:5px;margin-bottom:9px}
+.kc-desc{font-size:12px;color:var(--txt2);line-height:1.65;border-top:1px solid var(--border);padding-top:10px}
+
+.rej-list{display:flex;flex-direction:column;gap:11px;margin-bottom:20px}
+.rej{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:17px 20px;display:flex;gap:20px;transition:box-shadow .15s}
+.rej:hover{box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.rej-left{width:130px;flex-shrink:0}
+.rej-brand{font-size:13px;font-weight:600;color:var(--txt)}
+.rej-date{font-size:11px;color:var(--txt3);margin-top:3px}
+.rej-budget{font-size:11px;color:var(--txt3);margin-top:3px;font-variant-numeric:tabular-nums}
+.rej-tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px;background:var(--red-l);color:var(--red);margin-bottom:8px}
+.rej-body{font-size:13px;color:var(--txt2);line-height:1.7;flex:1}
+.rej-num{color:var(--txt3);margin-right:5px;font-size:11px}
+.rej-note{font-size:11px;color:var(--txt3);margin-top:8px;font-style:italic;line-height:1.55}
+
+/* Loading overlay */
+.loading-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(245,246,248,.85);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .2s;
+}
+.loading-overlay.hidden{opacity:0;pointer-events:none}
+.loading-spinner{
+  width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);
+  border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error banner */
+.error-banner{
+  background:var(--red-l);border:1px solid #fca5a5;border-radius:10px;
+  padding:16px 20px;margin-bottom:20px;color:#991b1b;font-size:13px;line-height:1.6;
+  display:none;
+}
+.error-banner.show{display:block}
+
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner"></div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="topbar-left">
+      <select class="period-select" id="period-select"></select>
+      <div class="topbar-title" id="topbar-title"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="tabs" id="tabs">
+        <button class="tab on" data-tab="overview">总览</button>
+        <button class="tab" data-tab="optimizer">使用统计</button>
+        <button class="tab" data-tab="brands">品牌统计</button>
+        <button class="tab" data-tab="comments">用户反馈</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="error-banner" id="error-banner"></div>
+
+  <!-- 总览 -->
+  <div id="p-overview" class="page on">
+    <div class="kpi-row" id="kpi-row"></div>
+    <div id="warn-box"></div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">每日采纳率趋势<small style="display:flex;gap:10px"><span style="color:#2563eb">● W1</span><span style="color:#ef4444">● W2</span></small></div>
+        <div style="position:relative;height:215px"><canvas id="c-daily"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">整体状态分布</div>
+        <div class="legend" id="donut-legend"></div>
+        <div class="donut-wrap">
+          <canvas id="c-donut"></canvas>
+          <div class="donut-c"><div class="donut-pct" id="donut-pct"></div><div class="donut-lbl">整体采纳率</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="g5" id="stat-cards"></div>
+  </div>
+
+  <!-- 使用统计 -->
+  <div id="p-optimizer" class="page">
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">各优化师采纳率<small>按高→低排序</small></div>
+        <div style="position:relative;height:340px"><canvas id="c-optbar"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">建议量 × 采纳率<small>气泡大小 = 建议总量</small></div>
+        <div style="position:relative;height:340px"><canvas id="c-bubble"></canvas></div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tc-head"><h3>优化师明细</h3><p>按采纳率排序 · 含手动拒绝 / 已过期分类</p></div>
+      <table>
+        <thead><tr>
+          <th style="width:155px">优化师</th><th style="width:190px">采纳率</th>
+          <th class="r">总建议</th><th class="r">自动</th><th class="r">手动采纳</th>
+          <th class="r" style="color:var(--orange)">手动拒绝</th>
+          <th class="r">无操作</th><th class="r" style="color:var(--purple)">已过期</th>
+          <th class="r">品牌</th><th class="r">W1</th><th class="r">W2</th>
+        </tr></thead>
+        <tbody id="opt-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 品牌统计 -->
+  <div id="p-brands" class="page">
+    <div class="g3" id="key-brands"></div>
+    <div class="tc">
+      <div class="tc-head">
+        <h3>所有品牌采纳率 <span style="font-weight:400;color:var(--txt3);font-size:12px">（≥10条记录）</span></h3>
+        <div class="legend" style="margin:0">
+          <span class="li"><span class="ld" style="background:#10b981"></span>自动</span>
+          <span class="li"><span class="ld" style="background:#3b82f6"></span>手动采纳</span>
+          <span class="li"><span class="ld" style="background:#f87171"></span>手动拒绝</span>
+          <span class="li"><span class="ld" style="background:#c4b5fd"></span>已过期</span>
+          <span class="li"><span class="ld" style="background:#f3f4f6"></span>无操作</span>
+        </div>
+      </div>
+      <div class="brand-list" id="brand-list"></div>
+    </div>
+  </div>
+
+  <!-- 用户反馈 -->
+  <div id="p-comments" class="page">
+    <div id="feedback-summary"></div>
+    <div class="rej-list" id="rej-list"></div>
+    <div class="tc" id="manual-adopt-table-wrap">
+      <div class="tc-head"><h3 id="manual-adopt-title">手动采纳明细</h3><p>按优化师汇总</p></div>
+      <table>
+        <thead><tr><th>优化师</th><th>品牌</th><th class="r">条数</th><th>主要方向</th><th>说明</th></tr></thead>
+        <tbody id="manual-adopt-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+const TABS = ['overview','optimizer','brands','comments'];
+let charts = {};
+let currentPeriod = null;
+let manifest = null;
+
+// ── URL Helpers ──
+function getUrlParams() {
+  const p = new URLSearchParams(window.location.search);
+  return { period: p.get('period'), tab: p.get('tab') };
+}
+
+function updateUrl(period, tab) {
+  const p = new URLSearchParams();
+  if (period) p.set('period', period);
+  if (tab && tab !== 'overview') p.set('tab', tab);
+  const qs = p.toString();
+  const url = window.location.pathname + (qs ? '?' + qs : '');
+  history.replaceState(null, '', url);
+}
+
+function getCurrentTab() {
+  const active = document.querySelector('.tab.on');
+  return active ? active.dataset.tab : 'overview';
+}
+
+// ── Tab Navigation ──
+function nav(tabId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('p-' + tabId).classList.add('on');
+  document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('on');
+  updateUrl(currentPeriod, tabId);
+}
+
+document.getElementById('tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.tab');
+  if (tab) nav(tab.dataset.tab);
+});
+
+// ── Loading / Error ──
+function showLoading() { document.getElementById('loading').classList.remove('hidden'); }
+function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+function showError(msg) {
+  const el = document.getElementById('error-banner');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideError() { document.getElementById('error-banner').classList.remove('show'); }
+
+// ── Chart Tooltip ──
+const tip = {backgroundColor:'#fff',borderColor:'#e8eaed',borderWidth:1,titleColor:'#111827',bodyColor:'#4b5563',padding:10,cornerRadius:6};
+
+// ── Destroy Charts ──
+function destroyCharts() {
+  Object.values(charts).forEach(c => { if (c) c.destroy(); });
+  charts = {};
+}
+
+// ── Render ──
+function render(period) {
+  const D = period.data;
+  const REJECTS = period.rejects || [];
+  const meta = period.meta || {};
+
+  hideError();
+
+  // Title
+  const days = meta.days || '';
+  const bc = meta.brands_count || D.brands?.length || 0;
+  const oc = meta.optimizers_count || D.optimizers?.length || 0;
+  document.getElementById('topbar-title').innerHTML =
+    `<b>总览</b> · ${meta.start || ''} — ${meta.end || ''} · ${days}天 · ${bc}个品牌 · ${oc}位优化师`;
+  document.title = `建议采纳分析 · ${meta.label || meta.id || ''}`;
+
+  destroyCharts();
+  renderOverview(D, meta);
+  renderOptimizer(D);
+  renderBrands(D);
+  renderComments(D, REJECTS);
+}
+
+function n(v, d) { return v ?? d; }
+function fmt(v) { return v != null ? v.toLocaleString() : '—'; }
+
+// ── Overview ──
+function renderOverview(D, meta) {
+  const dateRange = `${meta.start?.slice(5) || ''} – ${meta.end?.slice(5) || ''}`;
+
+  document.getElementById('kpi-row').innerHTML = `
+    <div class="kpi"><div class="kpi-lbl">总建议推送</div><div class="kv blue">${fmt(D.total)}</div><div class="kpi-meta">${dateRange} · ${n(meta.days,'')}天 · ${n(meta.brands_count,'')}个品牌</div></div>
+    <div class="kpi"><div class="kpi-lbl">整体采纳率</div><div class="kv red">${n(D.adopt_rate,0)}%</div><div class="kpi-meta">自动${fmt(D.auto)} + 手动${fmt(D.manual)}<br>W1 ${n(D.w1_rate,'—')}% → W2 ${n(D.w2_rate,'—')}%</div></div>
+    <div class="kpi"><div class="kpi-lbl">手动拒绝率</div><div class="kv orange">${n(D.reject_rate,0)}%</div><div class="kpi-meta">${fmt(D.reject)}条手动拒绝</div></div>
+    <div class="kpi"><div class="kpi-lbl">建议已过期</div><div class="kv purple">${n(D.exp_rate,0)}%</div><div class="kpi-meta">${fmt(D.expired)}条超时未处理</div></div>
+    <div class="kpi"><div class="kpi-lbl">无操作率</div><div class="kv red">${n(D.noop_rate,0)}%</div><div class="kpi-meta">${fmt(D.noop)}条未处理</div></div>`;
+
+  const warnHtml = D.warn_html;
+  document.getElementById('warn-box').innerHTML = warnHtml
+    ? `<div class="warn"><div class="warn-icon">⚠️</div><div>${warnHtml}</div></div>` : '';
+
+  // Donut legend
+  document.getElementById('donut-legend').innerHTML = `
+    <span class="li"><span class="ld" style="background:#10b981"></span>自动采纳 ${fmt(D.auto)}条（${n((D.auto/D.total*100).toFixed(1),0)}%）</span>
+    <span class="li"><span class="ld" style="background:#3b82f6"></span>手动采纳 ${fmt(D.manual)}条（${n((D.manual/D.total*100).toFixed(1),0)}%）</span>
+    <span class="li"><span class="ld" style="background:#f87171"></span>手动拒绝 ${fmt(D.reject)}条（${n((D.reject/D.total*100).toFixed(1),0)}%）</span>
+    <span class="li"><span class="ld" style="background:#e5e7eb"></span>无操作 ${fmt(D.noop)}条（${n(D.noop_rate,0)}%）</span>
+    <span class="li"><span class="ld" style="background:#c4b5fd"></span>已过期 ${fmt(D.expired)}条（${n(D.exp_rate,0)}%）</span>`;
+  document.getElementById('donut-pct').textContent = `${n(D.adopt_rate,0)}%`;
+
+  // Stat cards
+  document.getElementById('stat-cards').innerHTML = `
+    <div class="sc"><div class="sc-lbl">W1 采纳率</div><div class="sc-val" style="color:var(--red)">${n(D.w1_rate,'—')}%</div><div class="sc-sub">W1</div></div>
+    <div class="sc"><div class="sc-lbl">W2 采纳率</div><div class="sc-val" style="color:var(--red)">${n(D.w2_rate,'—')}%</div><div class="sc-sub">W2</div></div>
+    <div class="sc"><div class="sc-lbl">手动拒绝</div><div class="sc-val" style="color:var(--orange)">${fmt(D.reject)}条（${n(D.reject_rate,0)}%）</div></div>
+    <div class="sc"><div class="sc-lbl">已过期建议</div><div class="sc-val" style="color:var(--purple)">${fmt(D.expired)}条（${n(D.exp_rate,0)}%）</div></div>
+    <div class="sc"><div class="sc-lbl">手动采纳</div><div class="sc-val">${fmt(D.manual)}条</div></div>`;
+
+  // Daily chart
+  const daily = D.daily || [];
+  const half = Math.ceil(daily.length / 2);
+  charts.daily = new Chart(document.getElementById('c-daily'), {
+    type: 'line',
+    data: {
+      labels: daily.map(d => d.date),
+      datasets: [{
+        label: '采纳率', data: daily.map(d => d.rate),
+        segment: { borderColor: c => c.p0DataIndex >= half ? '#ef4444' : '#2563eb' },
+        pointBackgroundColor: daily.map((_, i) => i >= half ? '#ef4444' : '#2563eb'),
+        backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 4.5, pointHoverRadius: 7, fill: false, tension: .32
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: {
+        label: c => `采纳率: ${c.parsed.y}%`,
+        afterLabel: c => {
+          const d = daily[c.dataIndex];
+          return d ? `采纳: ${n(d.adopted,0)} 条 · 拒绝: ${n(d.rejected,0)} · 过期: ${n(d.expired,0)}` : '';
+        }
+      }}},
+      scales: {
+        y: { min: 0, ticks: { callback: v => v + '%', color: '#9ca3af', font: { size: 11 } }, grid: { color: '#f3f4f6' }, border: { display: false } },
+        x: { ticks: { color: '#9ca3af', font: { size: 10.5 }, maxRotation: 0 }, grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // Donut
+  charts.donut = new Chart(document.getElementById('c-donut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['自动采纳','手动采纳','手动拒绝','无操作','已过期'],
+      datasets: [{ data: [n(D.auto,0), n(D.manual,0), n(D.reject,0), n(D.noop,0), n(D.expired,0)],
+        backgroundColor: ['#10b981','#3b82f6','#f87171','#e5e7eb','#c4b5fd'], borderWidth: 0, hoverOffset: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, cutout: '72%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+  });
+}
+
+// ── Optimizer ──
+function renderOptimizer(D) {
+  const opts = D.optimizers || [];
+  const oN = opts.map(o => o.name.replace(/\(.*?\)/, '').trim());
+
+  charts.optbar = new Chart(document.getElementById('c-optbar'), {
+    type: 'bar',
+    data: { labels: oN, datasets: [{ data: opts.map(o => o.rate),
+      backgroundColor: opts.map(o => o.rate >= 70 ? '#10b981' : o.rate >= 40 ? '#f59e0b' : '#f87171'),
+      borderRadius: 3, borderSkipped: false }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: c => `采纳率: ${c.parsed.x}%` } } },
+      scales: {
+        x: { min: 0, max: 100, ticks: { callback: v => v + '%', color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } },
+        y: { ticks: { color: '#374151', font: { size: 11.5 } }, grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+
+  charts.bubble = new Chart(document.getElementById('c-bubble'), {
+    type: 'bubble',
+    data: { datasets: [{ data: opts.map(o => ({ x: o.total, y: o.rate, r: Math.max(5, Math.sqrt(o.total) * 1.1) })),
+      backgroundColor: opts.map(o => o.rate >= 70 ? 'rgba(16,185,129,.5)' : o.rate >= 40 ? 'rgba(245,158,11,.5)' : 'rgba(239,68,68,.5)'), borderColor: 'transparent' }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: c => {
+        const o = opts[c.dataIndex];
+        return o ? [`${o.name.replace(/\(.*?\)/, '').trim()}`, `建议量: ${o.total}条 · 采纳率: ${o.rate}%`, `拒绝: ${n(o.reject,0)}条 · 过期: ${n(o.expired,0)}条`] : '';
+      } } } },
+      scales: {
+        x: { title: { display: true, text: '建议总量（条）', color: '#9ca3af', font: { size: 11 } }, ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } },
+        y: { min: 0, max: 100, title: { display: true, text: '采纳率（%）', color: '#9ca3af', font: { size: 11 } }, ticks: { callback: v => v + '%', color: '#9ca3af', font: { size: 10 } }, grid: { color: '#f3f4f6' }, border: { display: false } }
+      }
+    }
+  });
+
+  // Table
+  const tbody = document.getElementById('opt-tbody');
+  const wc = r => r === null || r === undefined ? '—' : r >= 60 ? `<span class="wb wg">${r}%</span>` : r >= 40 ? `<span class="wb wa">${r}%</span>` : `<span class="wb wr2">${r}%</span>`;
+  tbody.innerHTML = opts.map(o => {
+    const c = o.rate >= 70 ? 'var(--green)' : o.rate >= 40 ? 'var(--amber)' : 'var(--red)';
+    const fc = o.rate >= 70 ? '#10b981' : o.rate >= 40 ? '#f59e0b' : '#f87171';
+    const nm = o.name.replace(/\((.*?)\)/, ''), sub = (o.name.match(/\((.*?)\)/) || [])[1] || '';
+    return `<tr>
+      <td><div class="nm">${nm}<div class="nm-sub">（${sub}）</div></div></td>
+      <td><div class="mbar"><span class="rval" style="color:${c}">${o.rate}%</span><div class="mbar-track"><div class="mbar-fill" style="width:${o.rate}%;background:${fc}"></div></div></div></td>
+      <td class="r">${o.total}</td><td class="r">${n(o.auto,0)}</td><td class="r">${o.manual || '—'}</td>
+      <td class="r">${o.reject > 0 ? `<b style="color:var(--orange)">${o.reject}</b>` : '—'}</td>
+      <td class="r">${n(o.noop,0)}</td>
+      <td class="r">${o.expired > 0 ? `<b style="color:var(--purple)">${o.expired}</b>` : '—'}</td>
+      <td class="r">${n(o.brands,0)}</td><td class="r">${wc(o.w1r)}</td><td class="r">${wc(o.w2r)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Brands ──
+function renderBrands(D) {
+  const keyBrands = D.key_brands || [];
+  const colorMap = { green: 'var(--green)', red: 'var(--red)', amber: 'var(--amber)' };
+  const bgMap = { green: 'var(--green-l)', red: 'var(--red-l)', amber: 'var(--amber-l)' };
+
+  document.getElementById('key-brands').innerHTML = keyBrands.map(kb => `
+    <div class="kc">
+      <div class="kc-nm">${kb.name} · ${kb.opt}</div>
+      <div class="kc-rate" style="color:${colorMap[kb.rate_color] || 'var(--txt)'}">${kb.rate}</div>
+      <div class="kc-meta">${kb.meta}</div>
+      <span class="badge" style="background:${bgMap[kb.badge_color] || '#f3f4f6'};color:${colorMap[kb.badge_color] || 'var(--txt3)'}">${kb.badge}</span>
+      <div class="kc-desc">${kb.desc}</div>
+    </div>`).join('');
+
+  const brands = D.brands || [];
+  document.getElementById('brand-list').innerHTML = brands.map(b => {
+    const aw = (b.auto / b.total * 100).toFixed(1), mw = (b.manual / b.total * 100).toFixed(1);
+    const rw = (b.reject / b.total * 100).toFixed(1), ew = (b.expired / b.total * 100).toFixed(1);
+    const c = b.rate >= 80 ? 'var(--green)' : b.rate >= 50 ? 'var(--amber)' : 'var(--red)';
+    const fc = b.rate >= 80 ? '#10b981' : b.rate >= 50 ? '#f59e0b' : '#f87171';
+    return `<div class="brand-row">
+      <div class="${b.is_key ? 'bnm key' : 'bnm'}" title="${b.name} · ${b.opt}">${b.is_key ? '★ ' : ''}<b style="font-weight:${b.is_key ? 600 : 400}">${b.name}</b></div>
+      <div class="btrack">
+        <div class="ba" style="width:${aw}%;background:${fc}"></div>
+        <div class="bm" style="width:${mw}%"></div>
+        <div class="br3" style="width:${rw}%"></div>
+        <div class="bex" style="width:${ew}%"></div>
+      </div>
+      <div class="bpct" style="color:${c}">${b.rate}%</div>
+      <div class="bcnt">${b.total}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Comments / Feedback ──
+function renderComments(D, REJECTS) {
+  const fbHtml = D.feedback_html;
+  document.getElementById('feedback-summary').innerHTML = fbHtml
+    ? `<div class="card" style="margin-bottom:20px;background:#fff7ed;border-color:#fed7aa"><div style="font-size:13px;color:#9a3412;line-height:1.75">${fbHtml}</div></div>` : '';
+
+  document.getElementById('rej-list').innerHTML = REJECTS.map(r => `
+    <div class="rej">
+      <div class="rej-left">
+        <div class="rej-brand">${r.brand}</div>
+        <div class="rej-date">${r.date}</div>
+        <div class="rej-budget">${r.budget}</div>
+      </div>
+      <div style="flex:1">
+        <div class="rej-tag">${r.tag}</div>
+        <div class="rej-body">${r.items.map((t, i) => `<div style="margin-bottom:${i < r.items.length - 1 ? '7' : '0'}px"><span class="rej-num">${i + 1}.</span>${t}</div>`).join('')}</div>
+        <div class="rej-note">💡 ${r.note}</div>
+      </div>
+    </div>`).join('');
+
+  const mat = D.manual_adopt_table || [];
+  const totalManual = n(D.manual, 0);
+  document.getElementById('manual-adopt-title').textContent = `手动采纳明细（${totalManual}条）`;
+  document.getElementById('manual-adopt-tbody').innerHTML = mat.map(r => `
+    <tr>
+      <td class="nm">${r.opt}</td><td>${r.brand}</td><td class="r">${r.count}</td>
+      <td>${r.direction}</td><td style="font-size:12px;color:var(--txt2)">${r.note}</td>
+    </tr>`).join('');
+
+  if (!mat.length && !REJECTS.length) {
+    document.getElementById('feedback-summary').innerHTML =
+      '<div class="card" style="margin-bottom:20px;text-align:center;color:var(--txt3);padding:40px">本周期暂无用户反馈数据</div>';
+  }
+}
+
+// ── Period Loading ──
+async function loadPeriod(periodId) {
+  showLoading();
+  try {
+    const resp = await fetch(`data/${periodId}.json`);
+    if (!resp.ok) throw new Error(`无法加载数据文件 data/${periodId}.json (${resp.status})`);
+    const periodData = await resp.json();
+    currentPeriod = periodId;
+    render(periodData);
+    updateUrl(periodId, getCurrentTab());
+  } catch (err) {
+    showError(`数据加载失败：${err.message}`);
+  } finally {
+    hideLoading();
+  }
+}
+
+// ── Init ──
+async function init() {
+  showLoading();
+  try {
+    const resp = await fetch('data/manifest.json');
+    if (!resp.ok) throw new Error('无法加载 data/manifest.json');
+    manifest = await resp.json();
+  } catch (err) {
+    showError(`初始化失败：${err.message}。请确认 data/manifest.json 文件存在。`);
+    hideLoading();
+    return;
+  }
+
+  const select = document.getElementById('period-select');
+  manifest.periods.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.label;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener('change', () => loadPeriod(select.value));
+
+  const params = getUrlParams();
+  const targetPeriod = params.period && manifest.periods.some(p => p.id === params.period)
+    ? params.period : manifest.default;
+  const targetTab = params.tab && TABS.includes(params.tab) ? params.tab : 'overview';
+
+  select.value = targetPeriod;
+  nav(targetTab);
+  await loadPeriod(targetPeriod);
+}
+
+init();
+</script>
+</body>
+</html>
