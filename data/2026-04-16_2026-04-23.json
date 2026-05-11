@@ -1,0 +1,539 @@
+{
+  "meta": {
+    "id": "2026-04-16_2026-04-23",
+    "label": "04/16 – 04/23（8天）",
+    "start": "2026-04-16",
+    "end": "2026-04-23",
+    "days": 8,
+    "brands_count": 18,
+    "optimizers_count": 7
+  },
+  "data": {
+    "total": 751,
+    "auto": 207,
+    "manual": 12,
+    "reject": 13,
+    "noop": 498,
+    "expired": 21,
+    "adopt_rate": 29.2,
+    "reject_rate": 1.7,
+    "noop_rate": 66.3,
+    "exp_rate": 2.8,
+    "w1_rate": null,
+    "w2_rate": null,
+    "daily": [
+      {
+        "date": "04/16",
+        "rate": 42.9,
+        "total": 14,
+        "adopted": 6,
+        "rejected": 0,
+        "expired": 1,
+        "noop": 7
+      },
+      {
+        "date": "04/17",
+        "rate": 29.7,
+        "total": 101,
+        "adopted": 30,
+        "rejected": 2,
+        "expired": 10,
+        "noop": 59
+      },
+      {
+        "date": "04/18",
+        "rate": 33.0,
+        "total": 88,
+        "adopted": 29,
+        "rejected": 0,
+        "expired": 4,
+        "noop": 55
+      },
+      {
+        "date": "04/19",
+        "rate": 32.9,
+        "total": 73,
+        "adopted": 24,
+        "rejected": 0,
+        "expired": 1,
+        "noop": 48
+      },
+      {
+        "date": "04/20",
+        "rate": 28.0,
+        "total": 118,
+        "adopted": 33,
+        "rejected": 0,
+        "expired": 1,
+        "noop": 84
+      },
+      {
+        "date": "04/21",
+        "rate": 31.5,
+        "total": 89,
+        "adopted": 28,
+        "rejected": 1,
+        "expired": 1,
+        "noop": 59
+      },
+      {
+        "date": "04/22",
+        "rate": 31.6,
+        "total": 136,
+        "adopted": 43,
+        "rejected": 3,
+        "expired": 1,
+        "noop": 89
+      },
+      {
+        "date": "04/23",
+        "rate": 19.7,
+        "total": 132,
+        "adopted": 26,
+        "rejected": 7,
+        "expired": 2,
+        "noop": 97
+      }
+    ],
+    "optimizers": [
+      {
+        "name": "Beryl(李佳琪)",
+        "rate": 93.2,
+        "total": 162,
+        "auto": 151,
+        "manual": 0,
+        "reject": 0,
+        "noop": 11,
+        "expired": 0,
+        "brands": 4,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Sunny(邱钰)",
+        "rate": 16.0,
+        "total": 349,
+        "auto": 56,
+        "manual": 0,
+        "reject": 0,
+        "noop": 287,
+        "expired": 6,
+        "brands": 4,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Yeely(张依丽)",
+        "rate": 14.6,
+        "total": 82,
+        "auto": 0,
+        "manual": 12,
+        "reject": 13,
+        "noop": 48,
+        "expired": 9,
+        "brands": 3,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Yamy(张亚美)",
+        "rate": 0.0,
+        "total": 35,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 32,
+        "expired": 3,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 15,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 15,
+        "expired": 0,
+        "brands": 2,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Bill(刘佳祺)",
+        "rate": 0.0,
+        "total": 5,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 5,
+        "expired": 0,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "#N/A",
+        "rate": 0.0,
+        "total": 103,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 100,
+        "expired": 3,
+        "brands": 3,
+        "w1r": null,
+        "w2r": null
+      }
+    ],
+    "brands": [
+      {
+        "name": "My Florgen",
+        "opt": "Beryl(李佳琪)",
+        "rate": 100.0,
+        "total": 26,
+        "auto": 26,
+        "manual": 0,
+        "reject": 0,
+        "noop": 0,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "海城达",
+        "opt": "Sunny(邱钰)",
+        "rate": 100.0,
+        "total": 12,
+        "auto": 12,
+        "manual": 0,
+        "reject": 0,
+        "noop": 0,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "Variahair",
+        "opt": "Beryl(李佳琪)",
+        "rate": 100.0,
+        "total": 14,
+        "auto": 14,
+        "manual": 0,
+        "reject": 0,
+        "noop": 0,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "primezone-2",
+        "opt": "Sunny(邱钰)",
+        "rate": 94.4,
+        "total": 36,
+        "auto": 34,
+        "manual": 0,
+        "reject": 0,
+        "noop": 1,
+        "expired": 1,
+        "is_key": true
+      },
+      {
+        "name": "carcovercustoms",
+        "opt": "Beryl(李佳琪)",
+        "rate": 92.5,
+        "total": 80,
+        "auto": 74,
+        "manual": 0,
+        "reject": 0,
+        "noop": 6,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Ktcplay",
+        "opt": "Beryl(李佳琪)",
+        "rate": 88.1,
+        "total": 42,
+        "auto": 37,
+        "manual": 0,
+        "reject": 0,
+        "noop": 5,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "uflower",
+        "opt": "Sunny(邱钰)",
+        "rate": 52.6,
+        "total": 19,
+        "auto": 10,
+        "manual": 0,
+        "reject": 0,
+        "noop": 6,
+        "expired": 3,
+        "is_key": false
+      },
+      {
+        "name": "FlixSynapse",
+        "opt": "Yeely(张依丽)",
+        "rate": 26.9,
+        "total": 26,
+        "auto": 0,
+        "manual": 7,
+        "reject": 2,
+        "noop": 15,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "Tigtog",
+        "opt": "Yeely(张依丽)",
+        "rate": 11.1,
+        "total": 36,
+        "auto": 0,
+        "manual": 4,
+        "reject": 4,
+        "noop": 24,
+        "expired": 4,
+        "is_key": false
+      },
+      {
+        "name": "AquaClip",
+        "opt": "Yeely(张依丽)",
+        "rate": 5.0,
+        "total": 20,
+        "auto": 0,
+        "manual": 1,
+        "reject": 7,
+        "noop": 9,
+        "expired": 3,
+        "is_key": false
+      },
+      {
+        "name": "3D 定制玩偶",
+        "opt": "Yamy(张亚美)",
+        "rate": 0.0,
+        "total": 35,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 32,
+        "expired": 3,
+        "is_key": false
+      },
+      {
+        "name": "Aeke CA",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 9,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 9,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Aeke DE&EU",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 6,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 6,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Genstore",
+        "opt": "Bill(刘佳祺)",
+        "rate": 0.0,
+        "total": 5,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 5,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Babycare",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 282,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 280,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "KTC-US",
+        "opt": "#N/A",
+        "rate": 0.0,
+        "total": 10,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 10,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Trip.com - KR",
+        "opt": "#N/A",
+        "rate": 0.0,
+        "total": 42,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 39,
+        "expired": 3,
+        "is_key": false
+      },
+      {
+        "name": "Goofish",
+        "opt": "#N/A",
+        "rate": 0.0,
+        "total": 51,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 51,
+        "expired": 0,
+        "is_key": false
+      }
+    ],
+    "warn_html": "系统上线首周（含冷启动前2天），整体采纳率 <b>29.2%</b>，为历史最高水平。Beryl（93.2%）以高自动采纳率领跑；Sunny（16.0%）和 Yeely（14.6%）为第二梯队。498 条建议（66.3%）处于无操作状态，21 条已过期（2.8%）。本周仅覆盖 7 位优化师、26 个品牌，采纳率高部分归因于系统覆盖面有限、初期关注度高。4位优化师（Zifan、Neeko、Eda、Cora）首周即零采纳。",
+    "feedback_html": "<b style=\"color:#7c2d12\">本期手动拒绝13条</b>，全部来自 Yeely（张依丽）。拒绝集中在 <b>AquaClip（7条）、Tigtog（4条）、FlixSynapse（2条）</b>。AquaClip 拒绝理由以「调整幅度过小」为主——优化师认为应直接调至目标值50刀，而非系统的渐进式调整。Tigtog 理由为「成本不达标，应降低而非加预算」。这两种分歧从第一周起即出现，贯穿后续所有周期。手动采纳11条（Yeely 6条、Sunny 5条），Yeely 是唯一主动参与人工判断的优化师。",
+    "key_brands": [
+      {
+        "name": "My Florgen",
+        "opt": "Beryl（李佳琪）",
+        "rate": "100%",
+        "rate_color": "green",
+        "meta": "36条全部自动采纳",
+        "badge": "标杆品牌",
+        "badge_color": "green",
+        "desc": "Beryl 旗下体量最大品牌之一，从系统上线起即满采纳，后续保持至第三周。"
+      },
+      {
+        "name": "海城达",
+        "opt": "Sunny（邱钰）",
+        "rate": "100%",
+        "rate_color": "green",
+        "meta": "17条全部自动采纳",
+        "badge": "连续满采纳起点",
+        "badge_color": "green",
+        "desc": "Sunny 旗下标杆品牌，从第一周起即保持100%采纳，持续至今未曾中断。"
+      },
+      {
+        "name": "Variahair",
+        "opt": "Beryl（李佳琪）",
+        "rate": "100%",
+        "rate_color": "green",
+        "meta": "5条全部自动采纳",
+        "badge": "小体量满采纳",
+        "badge_color": "green",
+        "desc": "仅出现在本周期，后续未见推送。可能为测试账户或已停投品牌。"
+      },
+      {
+        "name": "primezone-2",
+        "opt": "Sunny（邱钰）",
+        "rate": "94.4%",
+        "rate_color": "green",
+        "meta": "自动17 / 18",
+        "badge": "高位起步",
+        "badge_color": "green",
+        "desc": "Sunny 旗下第二品牌，首周即达94%，后续持续保持90%+。"
+      },
+      {
+        "name": "Babycare",
+        "opt": "Sunny（邱钰）",
+        "rate": "0%",
+        "rate_color": "red",
+        "meta": "0 / 67 · 全部无操作",
+        "badge": "大体量零采纳",
+        "badge_color": "red",
+        "desc": "体量最大的零采纳品牌，67条建议全部无操作。Sunny 对该品牌未启用自动采纳策略。"
+      },
+      {
+        "name": "Goofish",
+        "opt": "Eda（张敬怡）",
+        "rate": "0%",
+        "rate_color": "red",
+        "meta": "0 / 56 · 全部无操作",
+        "badge": "零采纳",
+        "badge_color": "red",
+        "desc": "Eda 旗下品牌，56条建议无一处理。Eda 在后续周期依然保持零采纳。"
+      }
+    ],
+    "manual_adopt_table": [
+      {
+        "opt": "Yeely（张依丽）",
+        "brand": "FlixSynapse",
+        "count": 7,
+        "direction": "<span class=\"wb wr2\">关停</span> <span class=\"wb wr2\">降预算</span> <span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 7 条"
+      },
+      {
+        "opt": "Yeely（张依丽）",
+        "brand": "Tigtog",
+        "count": 4,
+        "direction": "<span class=\"wb wr2\">降预算</span> <span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 4 条"
+      },
+      {
+        "opt": "Yeely（张依丽）",
+        "brand": "AquaClip",
+        "count": 1,
+        "direction": "<span class=\"wb wr2\">降预算</span>",
+        "note": "本期手动采纳 1 条"
+      }
+    ]
+  },
+  "rejects": [
+    {
+      "brand": "AquaClip",
+      "date": "04/22, 04/23 × 7",
+      "budget": "130→120 / 10→8 / 10→7 / 40→35 / 100→110",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "实时CPI 1.08，先保持现有预算，不进行调整",
+        "保持10刀测试预算观测",
+        "保持10刀测试预算，优先关停组内末端素材，观测1-2天。",
+        "实时CPI 0.91，不进行预算缩减，200刀日预算可花超",
+        "预算增加幅度较少，可增加到130刀保持",
+        "今日实时成本较高，不增加预算，保持现有预算观察。",
+        "直接关停"
+      ],
+      "note": "AquaClip 本期被拒绝 7 次。"
+    },
+    {
+      "brand": "Tigtog",
+      "date": "04/17, 04/23 × 4",
+      "budget": "15→12 / 15→11 / 15→9 / 100→90",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "昨日搭建测试，今日实时成本较高，优先关停组内末端表现素材，不调整预算，观测广告组数据趋势",
+        "昨日搭建测试，今日实时成本较高，优先关停组内末端表现素材，不调整预算，观测广告组数据趋势",
+        "[{\"children\":[{\"children\":[{\"label\":\"Budget should remain unchanged\"}],\"label\":\"Direction is incorrect\"}],\"label\":\"Budget adjustment recommendation is unreasonable\"},{\"label\":\"Others\",\"text\":\"昨日新建组测试，今日实时成本较高，优先关停组内高成本素材，继续观察广告组表现，不下调预算\"}]",
+        "[{\"children\":[{\"children\":[{\"label\":\"Too high\"}],\"label\":\"Budget scope is unreasonable\"}],\"label\":\"Budget adjustment recommendation is unreasonable\"},{\"label\":\"Others\",\"text\":\"预算下调幅度过小，昨日和今日实时成本均较高，下调到70刀观测\"}]"
+      ],
+      "note": "Tigtog 本期被拒绝 4 次。"
+    },
+    {
+      "brand": "FlixSynapse",
+      "date": "04/21, 04/23 × 2",
+      "budget": "15→10 / 10→7",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "昨日搭建测试，今日实时成本较高，优先关停组内末端表现素材，不调整预算，观测广告组数据趋势",
+        "广告组日预算低于$10则暂停"
+      ],
+      "note": "FlixSynapse 本期被拒绝 2 次。"
+    }
+  ]
+}

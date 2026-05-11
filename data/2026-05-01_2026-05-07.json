@@ -1,0 +1,1053 @@
+{
+  "meta": {
+    "id": "2026-05-01_2026-05-07",
+    "label": "05/01 – 05/07（7天）",
+    "start": "2026-05-01",
+    "end": "2026-05-07",
+    "days": 7,
+    "brands_count": 48,
+    "optimizers_count": 16
+  },
+  "data": {
+    "total": 4532,
+    "auto": 137,
+    "manual": 20,
+    "reject": 11,
+    "noop": 4141,
+    "expired": 223,
+    "adopt_rate": 3.5,
+    "reject_rate": 0.2,
+    "noop_rate": 91.4,
+    "exp_rate": 4.9,
+    "w1_rate": null,
+    "w2_rate": null,
+    "daily": [
+      {
+        "date": "05/01",
+        "rate": 0.0,
+        "total": 201,
+        "adopted": 0,
+        "rejected": 0,
+        "expired": 12,
+        "noop": 189
+      },
+      {
+        "date": "05/02",
+        "rate": 0.0,
+        "total": 195,
+        "adopted": 0,
+        "rejected": 0,
+        "expired": 2,
+        "noop": 193
+      },
+      {
+        "date": "05/03",
+        "rate": 0.0,
+        "total": 195,
+        "adopted": 0,
+        "rejected": 0,
+        "expired": 23,
+        "noop": 172
+      },
+      {
+        "date": "05/04",
+        "rate": 0.0,
+        "total": 199,
+        "adopted": 0,
+        "rejected": 0,
+        "expired": 15,
+        "noop": 184
+      },
+      {
+        "date": "05/05",
+        "rate": 6.4,
+        "total": 314,
+        "adopted": 20,
+        "rejected": 0,
+        "expired": 15,
+        "noop": 279
+      },
+      {
+        "date": "05/06",
+        "rate": 3.9,
+        "total": 594,
+        "adopted": 23,
+        "rejected": 2,
+        "expired": 76,
+        "noop": 493
+      },
+      {
+        "date": "05/07",
+        "rate": 4.0,
+        "total": 2834,
+        "adopted": 114,
+        "rejected": 9,
+        "expired": 80,
+        "noop": 2631
+      }
+    ],
+    "optimizers": [
+      {
+        "name": "Beryl(李佳琪)",
+        "rate": 77.0,
+        "total": 148,
+        "auto": 114,
+        "manual": 0,
+        "reject": 0,
+        "noop": 33,
+        "expired": 1,
+        "brands": 2,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Yeely(张依丽)",
+        "rate": 2.7,
+        "total": 110,
+        "auto": 0,
+        "manual": 3,
+        "reject": 9,
+        "noop": 84,
+        "expired": 14,
+        "brands": 7,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Sunny(邱钰)",
+        "rate": 2.2,
+        "total": 1059,
+        "auto": 23,
+        "manual": 0,
+        "reject": 0,
+        "noop": 1025,
+        "expired": 11,
+        "brands": 9,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Yamy(张亚美)",
+        "rate": 1.1,
+        "total": 377,
+        "auto": 0,
+        "manual": 4,
+        "reject": 0,
+        "noop": 355,
+        "expired": 18,
+        "brands": 4,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Cora(穆佳妮)",
+        "rate": 0.8,
+        "total": 1277,
+        "auto": 0,
+        "manual": 10,
+        "reject": 0,
+        "noop": 1150,
+        "expired": 117,
+        "brands": 8,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Zifan(朱子凡)",
+        "rate": 0.7,
+        "total": 439,
+        "auto": 0,
+        "manual": 3,
+        "reject": 0,
+        "noop": 418,
+        "expired": 18,
+        "brands": 4,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Eda(姜雯)",
+        "rate": 0.0,
+        "total": 116,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 113,
+        "expired": 3,
+        "brands": 2,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Mandy(刘萌)",
+        "rate": 0.0,
+        "total": 83,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 83,
+        "expired": 0,
+        "brands": 3,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Reina(杨蕊)",
+        "rate": 0.0,
+        "total": 319,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 308,
+        "expired": 11,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Lucia(张露阳)",
+        "rate": 0.0,
+        "total": 78,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 76,
+        "expired": 2,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Sweety(陈甜甜)",
+        "rate": 0.0,
+        "total": 171,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 167,
+        "expired": 4,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "#N/A",
+        "rate": 0.0,
+        "total": 80,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 80,
+        "expired": 0,
+        "brands": 2,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Yuting(孙玉婷)",
+        "rate": 0.0,
+        "total": 38,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 37,
+        "expired": 1,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "summer(陈晶晶)",
+        "rate": 0.0,
+        "total": 167,
+        "auto": 0,
+        "manual": 0,
+        "reject": 2,
+        "noop": 152,
+        "expired": 13,
+        "brands": 3,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Neeko(荆俊)",
+        "rate": 0.0,
+        "total": 68,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 58,
+        "expired": 10,
+        "brands": 2,
+        "w1r": null,
+        "w2r": null
+      },
+      {
+        "name": "Bill(刘佳祺)",
+        "rate": 0.0,
+        "total": 2,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 2,
+        "expired": 0,
+        "brands": 1,
+        "w1r": null,
+        "w2r": null
+      }
+    ],
+    "brands": [
+      {
+        "name": "海城达",
+        "opt": "Sunny(邱钰)",
+        "rate": 100.0,
+        "total": 6,
+        "auto": 6,
+        "manual": 0,
+        "reject": 0,
+        "noop": 0,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "primezone-2",
+        "opt": "Sunny(邱钰)",
+        "rate": 89.5,
+        "total": 19,
+        "auto": 17,
+        "manual": 0,
+        "reject": 0,
+        "noop": 2,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "My Florgen",
+        "opt": "Beryl(李佳琪)",
+        "rate": 86.3,
+        "total": 51,
+        "auto": 44,
+        "manual": 0,
+        "reject": 0,
+        "noop": 6,
+        "expired": 1,
+        "is_key": true
+      },
+      {
+        "name": "Ktcplay",
+        "opt": "Beryl(李佳琪)",
+        "rate": 72.2,
+        "total": 97,
+        "auto": 70,
+        "manual": 0,
+        "reject": 0,
+        "noop": 27,
+        "expired": 0,
+        "is_key": true
+      },
+      {
+        "name": "CineScope",
+        "opt": "Yeely(张依丽)",
+        "rate": 25.0,
+        "total": 4,
+        "auto": 0,
+        "manual": 1,
+        "reject": 0,
+        "noop": 3,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "3D 定制玩偶",
+        "opt": "Yamy(张亚美)",
+        "rate": 23.5,
+        "total": 17,
+        "auto": 0,
+        "manual": 4,
+        "reject": 0,
+        "noop": 13,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "FlixSynapse",
+        "opt": "Yeely(张依丽)",
+        "rate": 16.7,
+        "total": 12,
+        "auto": 0,
+        "manual": 2,
+        "reject": 3,
+        "noop": 6,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "Jackery CA",
+        "opt": "Cora(穆佳妮)",
+        "rate": 7.5,
+        "total": 134,
+        "auto": 0,
+        "manual": 10,
+        "reject": 0,
+        "noop": 103,
+        "expired": 21,
+        "is_key": false
+      },
+      {
+        "name": "Dowinx US",
+        "opt": "Zifan(朱子凡)",
+        "rate": 3.7,
+        "total": 54,
+        "auto": 0,
+        "manual": 2,
+        "reject": 0,
+        "noop": 47,
+        "expired": 5,
+        "is_key": false
+      },
+      {
+        "name": "Jardina",
+        "opt": "Zifan(朱子凡)",
+        "rate": 0.3,
+        "total": 333,
+        "auto": 0,
+        "manual": 1,
+        "reject": 0,
+        "noop": 323,
+        "expired": 9,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot DE",
+        "opt": "Yamy(张亚美)",
+        "rate": 0.0,
+        "total": 189,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 187,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot FR",
+        "opt": "Yamy(张亚美)",
+        "rate": 0.0,
+        "total": 140,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 132,
+        "expired": 8,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot UK",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 165,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 139,
+        "expired": 26,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot",
+        "opt": "Eda(姜雯), Reina(杨蕊), summer(陈晶晶)",
+        "rate": 0.0,
+        "total": 496,
+        "auto": 0,
+        "manual": 0,
+        "reject": 1,
+        "noop": 469,
+        "expired": 26,
+        "is_key": false
+      },
+      {
+        "name": "Jackery",
+        "opt": "Eda(姜雯), Mandy(刘萌)",
+        "rate": 0.0,
+        "total": 75,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 75,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Sunsitt",
+        "opt": "Zifan(朱子凡)",
+        "rate": 0.0,
+        "total": 28,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 27,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot.PL",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 65,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 61,
+        "expired": 4,
+        "is_key": false
+      },
+      {
+        "name": "Speakon",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 132,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 132,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Wybotpool CA",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 460,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 426,
+        "expired": 34,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot.es",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 181,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 177,
+        "expired": 4,
+        "is_key": false
+      },
+      {
+        "name": "Roborock",
+        "opt": "Lucia(张露阳)",
+        "rate": 0.0,
+        "total": 78,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 76,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "OpenArt",
+        "opt": "Sweety(陈甜甜)",
+        "rate": 0.0,
+        "total": 171,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 167,
+        "expired": 4,
+        "is_key": false
+      },
+      {
+        "name": "KTC-US",
+        "opt": "#N/A",
+        "rate": 0.0,
+        "total": 28,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 28,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "tijn",
+        "opt": "Mandy(刘萌)",
+        "rate": 0.0,
+        "total": 29,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 29,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "PEACEBIRD",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 28,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 28,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Veritickets",
+        "opt": "Yuting(孙玉婷)",
+        "rate": 0.0,
+        "total": 38,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 37,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "Navimow NL",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 140,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 124,
+        "expired": 16,
+        "is_key": false
+      },
+      {
+        "name": "Navimow BE",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 165,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 152,
+        "expired": 13,
+        "is_key": false
+      },
+      {
+        "name": "Jackery_04232026",
+        "opt": "Mandy(刘萌)",
+        "rate": 0.0,
+        "total": 24,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 24,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot.it",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 56,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 55,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "Babycare",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 528,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 526,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "Trip.com - KR",
+        "opt": "#N/A",
+        "rate": 0.0,
+        "total": 52,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 52,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "9amhome",
+        "opt": "Sunny(邱钰)",
+        "rate": 0.0,
+        "total": 44,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 44,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "CashNow - Mobile Cash Loan App",
+        "opt": "Yeely(张依丽)",
+        "rate": 0.0,
+        "total": 35,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 33,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot JP",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 96,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 96,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Roborockstore",
+        "opt": "summer(陈晶晶)",
+        "rate": 0.0,
+        "total": 23,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 23,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Popia",
+        "opt": "Neeko(荆俊)",
+        "rate": 0.0,
+        "total": 36,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 32,
+        "expired": 4,
+        "is_key": false
+      },
+      {
+        "name": "Popia - AI Roleplay & Stories",
+        "opt": "Neeko(荆俊)",
+        "rate": 0.0,
+        "total": 32,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 26,
+        "expired": 6,
+        "is_key": false
+      },
+      {
+        "name": "Atprossboard",
+        "opt": "Zifan(朱子凡)",
+        "rate": 0.0,
+        "total": 24,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 21,
+        "expired": 3,
+        "is_key": false
+      },
+      {
+        "name": "Jackery US",
+        "opt": "Yamy(张亚美)",
+        "rate": 0.0,
+        "total": 31,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 23,
+        "expired": 8,
+        "is_key": false
+      },
+      {
+        "name": "Aeke CA",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 69,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 62,
+        "expired": 7,
+        "is_key": false
+      },
+      {
+        "name": "Aeke DE&EU",
+        "opt": "Cora(穆佳妮)",
+        "rate": 0.0,
+        "total": 48,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 48,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "Flexispot_04232026",
+        "opt": "summer(陈晶晶)",
+        "rate": 0.0,
+        "total": 38,
+        "auto": 0,
+        "manual": 0,
+        "reject": 1,
+        "noop": 36,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "Genstore",
+        "opt": "Bill(刘佳祺)",
+        "rate": 0.0,
+        "total": 2,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 2,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "VidPlayPro",
+        "opt": "Yeely(张依丽)",
+        "rate": 0.0,
+        "total": 5,
+        "auto": 0,
+        "manual": 0,
+        "reject": 1,
+        "noop": 4,
+        "expired": 0,
+        "is_key": false
+      },
+      {
+        "name": "MFansk",
+        "opt": "Yeely(张依丽)",
+        "rate": 0.0,
+        "total": 11,
+        "auto": 0,
+        "manual": 0,
+        "reject": 2,
+        "noop": 7,
+        "expired": 2,
+        "is_key": false
+      },
+      {
+        "name": "Tigtog",
+        "opt": "Yeely(张依丽)",
+        "rate": 0.0,
+        "total": 9,
+        "auto": 0,
+        "manual": 0,
+        "reject": 3,
+        "noop": 5,
+        "expired": 1,
+        "is_key": false
+      },
+      {
+        "name": "AquaClip",
+        "opt": "Yeely(张依丽)",
+        "rate": 0.0,
+        "total": 34,
+        "auto": 0,
+        "manual": 0,
+        "reject": 0,
+        "noop": 26,
+        "expired": 8,
+        "is_key": false
+      }
+    ],
+    "warn_html": "采纳率继续下滑至 <b>3.5%</b>（上周6.6%），连续三周下降。本周包含五一假期（5/1-5/3），<b>假期三天采纳量接近归零</b>，仅零星自动采纳。Beryl 从93.3%大幅下滑至 <b>77.0%</b>，首次跌破80%。建议总量从2,725条升至4,532条（+66%），系统推送量在5/7出现爆发性增长（单日2,834条）。10位优化师保持零采纳，无操作率升至 <b>91.4%</b>。值得注意的是 Yamy（1.1%）和 Cora（0.8%）首次出现微量采纳，是零采纳阵营的破冰信号。",
+    "feedback_html": "<b style=\"color:#7c2d12\">本期手动拒绝11条</b>，来自2位优化师：<b>Yeely 10条、summer 1条</b>。summer 首次拒绝——Flexispot（1条），明确指出「产品预算固定，系统调整会影响整体balance」。这是首次有优化师提出系统无法感知的业务规则约束。Yeely 集中在 FlixSynapse（3条）、Tigtog（3条）、MFansk（2条），新增 MFansk 为拒绝品牌。「关停ROI不达标广告组」+「先提bid不要动预算」仍为 Yeely 核心策略。手动采纳34条（Yeely 16条、Cora 8条、Sunny 6条、Yamy 4条），Cora 和 Yamy 开始主动参与。",
+    "key_brands": [
+      {
+        "name": "海城达",
+        "opt": "Sunny（邱钰）",
+        "rate": "100%",
+        "rate_color": "green",
+        "meta": "21条全部自动采纳",
+        "badge": "三周连续满采纳",
+        "badge_color": "green",
+        "desc": "唯一一个从系统上线起连续三周保持100%的品牌，Sunny 旗下最可靠账户。"
+      },
+      {
+        "name": "primezone-2",
+        "opt": "Sunny（邱钰）",
+        "rate": "89.5%",
+        "rate_color": "green",
+        "meta": "自动34 / 38",
+        "badge": "微降仍高位",
+        "badge_color": "green",
+        "desc": "从连续两周100%降至89.5%，4条无操作集中在假期期间。"
+      },
+      {
+        "name": "My Florgen",
+        "opt": "Beryl（李佳琪）",
+        "rate": "86.3%",
+        "rate_color": "green",
+        "meta": "自动95 / 110",
+        "badge": "明显下滑",
+        "badge_color": "green",
+        "desc": "从连续两周100%降至86.3%，15条无操作对应Beryl本周整体参与度下降。"
+      },
+      {
+        "name": "Ktcplay",
+        "opt": "Beryl（李佳琪）",
+        "rate": "72.2%",
+        "rate_color": "green",
+        "meta": "自动91 / 126",
+        "badge": "中等采纳",
+        "badge_color": "green",
+        "desc": "Beryl 旗下新进大体量品牌，本周首次出现即达72%，但35条无操作需关注。"
+      },
+      {
+        "name": "Babycare",
+        "opt": "Sunny（邱钰）",
+        "rate": "0%",
+        "rate_color": "red",
+        "meta": "0 / 296 · 全部无操作",
+        "badge": "持续零采纳",
+        "badge_color": "red",
+        "desc": "连续三周零采纳，296条建议无一处理，Sunny 对该品牌的自动策略始终未开启。"
+      },
+      {
+        "name": "Flexispot",
+        "opt": "summer/Eda/Reina",
+        "rate": "0%",
+        "rate_color": "red",
+        "meta": "0 / 639 · 全部无操作或过期",
+        "badge": "持续零采纳",
+        "badge_color": "red",
+        "desc": "连续第三周零采纳。summer 首次手动拒绝说明她知道系统存在，但选择不采纳。"
+      }
+    ],
+    "manual_adopt_table": [
+      {
+        "opt": "Cora（穆佳妮）",
+        "brand": "Jackery CA",
+        "count": 10,
+        "direction": "<span class=\"wb wr2\">关停</span> <span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 10 条"
+      },
+      {
+        "opt": "Yamy（张亚美）",
+        "brand": "3D 定制玩偶",
+        "count": 4,
+        "direction": "<span class=\"wb wr2\">关停</span> <span class=\"wb wr2\">降预算</span> <span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 4 条"
+      },
+      {
+        "opt": "Zifan（朱子凡）",
+        "brand": "Dowinx US",
+        "count": 2,
+        "direction": "<span class=\"wb wr2\">降预算</span> <span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 2 条"
+      },
+      {
+        "opt": "Zifan（朱子凡）",
+        "brand": "Jardina",
+        "count": 1,
+        "direction": "<span class=\"wb wg\">加预算</span>",
+        "note": "本期手动采纳 1 条"
+      },
+      {
+        "opt": "Yeely（张依丽）",
+        "brand": "FlixSynapse",
+        "count": 2,
+        "direction": "<span class=\"wb wr2\">关停</span> <span class=\"wb wr2\">降预算</span>",
+        "note": "本期手动采纳 2 条"
+      },
+      {
+        "opt": "Yeely（张依丽）",
+        "brand": "CineScope",
+        "count": 1,
+        "direction": "<span class=\"wb wr2\">降预算</span>",
+        "note": "本期手动采纳 1 条"
+      }
+    ]
+  },
+  "rejects": [
+    {
+      "brand": "FlixSynapse",
+      "date": "05/07 × 3",
+      "budget": "30→30 / 20→30 / 15→20",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "成本持续不达标",
+        "过去3天CPI 1.75，且单日消耗未花满预算，优先上调bid调整，不增加预算。",
+        "昨日新测组，第二日不增加预算，优先观察数据稳定情况"
+      ],
+      "note": "FlixSynapse 本期被拒绝 3 次。"
+    },
+    {
+      "brand": "Tigtog",
+      "date": "05/07 × 3",
+      "budget": "40→52 / 25→20 / 30→45",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "今日实时成本仍在1.1以上，不增加预算",
+        "7天、3天、实时成本均较高，远达不成KPI目标，预算25 直接关停",
+        "成本相对较低，但没有达到KPi要求，不增加预算"
+      ],
+      "note": "Tigtog 本期被拒绝 3 次。"
+    },
+    {
+      "brand": "MFansk",
+      "date": "05/07 × 2",
+      "budget": "10→20 / 10→5",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "昨日新测组，观察数据表现，不增加预算",
+        "昨日新测组，组内消耗头部素材表现较差，拉高整体成本，先关停高成本素材，观测其余素材表现"
+      ],
+      "note": "MFansk 本期被拒绝 2 次。"
+    },
+    {
+      "brand": "Flexispot_04232026",
+      "date": "05/06 × 1",
+      "budget": "15→25",
+      "tag": "summer(陈晶晶) 拒绝",
+      "items": [
+        "客户预算是固定了 这个调高了 就要有一个调低"
+      ],
+      "note": "Flexispot_04232026 本期被拒绝 1 次。"
+    },
+    {
+      "brand": "Flexispot",
+      "date": "05/06 × 1",
+      "budget": "60→90",
+      "tag": "summer(陈晶晶) 拒绝",
+      "items": [
+        "客户看后台 这个广告系列的GA浏览时长不高"
+      ],
+      "note": "Flexispot 本期被拒绝 1 次。"
+    },
+    {
+      "brand": "VidPlayPro",
+      "date": "05/07 × 1",
+      "budget": "10→8",
+      "tag": "Yeely(张依丽) 拒绝",
+      "items": [
+        "昨日新测组，优先关停组内表现不佳的末端素材，不增加预算。"
+      ],
+      "note": "VidPlayPro 本期被拒绝 1 次。"
+    }
+  ]
+}
