@@ -404,6 +404,9 @@ function renderOverview(D, meta, PD, prevMeta) {
   document.getElementById('warn-box').innerHTML = warnHtml
     ? `<div class="warn"><div class="warn-icon">⚠️</div><div>${warnHtml}</div></div>` : '';
 
+  // Daily data
+  const daily = D.daily || [];
+
   // Heatmap
   function hmColor(rate) {
     if (rate <= 0) return '#f3f4f6';
@@ -453,7 +456,6 @@ function renderOverview(D, meta, PD, prevMeta) {
   }
 
   // Daily chart
-  const daily = D.daily || [];
   charts.daily = new Chart(document.getElementById('c-daily'), {
     type: 'line',
     data: {
