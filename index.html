@@ -105,14 +105,15 @@ tr:hover td{background:#fafbfc}
 .wg{background:var(--green-l);color:var(--green)}.wa{background:var(--amber-l);color:var(--amber)}
 .wr2{background:var(--red-l);color:var(--red)}.wn{background:#f3f4f6;color:var(--txt3)}
 
-.brand-list{padding:14px 22px}
-.brand-row{display:flex;align-items:center;gap:10px;padding:3.5px 0}
-.bnm{font-size:11.5px;color:var(--txt2);width:200px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bnm.key{color:var(--blue);font-weight:600}
+.brand-table-wrap{padding:0 22px 14px;overflow-x:auto}
+.brand-table-wrap table{width:100%}
+.brand-table-wrap th{font-size:11px}
+.brand-table-wrap td{font-size:13px;vertical-align:middle}
+.brand-table-wrap td.brand-opt-cell{font-size:12px;color:var(--txt2);line-height:1.45}
+.brand-name-key{color:var(--blue);font-weight:600}
 .btrack{flex:1;height:14px;background:#f3f4f6;border-radius:4px;overflow:hidden;display:flex}
+.btrack.btrack-cell{flex:none;width:120px;min-width:120px}
 .ba{height:100%}.bm{height:100%;background:#3b82f6}.br3{height:100%;background:#f87171}.bex{height:100%;background:#c4b5fd}
-.bpct{font-size:11.5px;font-weight:600;width:32px;text-align:right}
-.bcnt{font-size:10.5px;color:var(--txt3);width:30px;text-align:right}
 
 .kc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:box-shadow .15s}
 .kc:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
@@ -259,7 +260,19 @@ tr:hover td{background:#fafbfc}
           <span class="li"><span class="ld" style="background:#f3f4f6"></span>无操作</span>
         </div>
       </div>
-      <div class="brand-list" id="brand-list"></div>
+      <div class="brand-table-wrap">
+        <table>
+          <thead><tr>
+            <th style="min-width:120px">品牌</th>
+            <th style="min-width:140px">优化师</th>
+            <th class="r" style="width:72px">采纳率</th>
+            <th style="min-width:130px">状态分布</th>
+            <th class="r" style="width:72px">建议量</th>
+            <th style="min-width:160px">结论</th>
+          </tr></thead>
+          <tbody id="brand-list-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -558,6 +571,18 @@ function renderOptimizer(D, PD) {
   }).join('');
 }
 
+function brandConclusion(b) {
+  let text, cls;
+  if (b.rate === 0 && b.total >= 100) { text = '零采纳 · 体量大需关注'; cls = 'wr2'; }
+  else if (b.rate === 0) { text = '零采纳'; cls = 'wr2'; }
+  else if (b.rate >= 90) { text = '表现优秀'; cls = 'wg'; }
+  else if (b.rate >= 50) { text = '采纳良好'; cls = 'wa'; }
+  else if ((b.manual || 0) > 0 && !(b.auto > 0)) { text = '仅手动操作 · 未启用自动'; cls = 'wa'; }
+  else if ((b.reject || 0) > 0) { text = `有${b.reject}条拒绝记录`; cls = 'wa'; }
+  else { text = '低采纳 · 需跟进'; cls = 'wr2'; }
+  return `<span class="wb ${cls}">${text}</span>`;
+}
+
 // ── Brands ──
 function renderBrands(D, PD) {
   const brands = D.brands || [];
@@ -639,23 +664,28 @@ function renderBrands(D, PD) {
     </tr>`;
   }).join('');
 
-  // All brands bar chart (unchanged)
-  document.getElementById('brand-list').innerHTML = brands.map(b => {
+  // All brands table (≥10条)
+  const brandsAll = brands.filter(b => b.total >= 10).sort((a, b) => b.total - a.total);
+  document.getElementById('brand-list-tbody').innerHTML = brandsAll.map(b => {
     const aw = (b.auto / b.total * 100).toFixed(1), mw = (b.manual / b.total * 100).toFixed(1);
     const rw = (b.reject / b.total * 100).toFixed(1), ew = (b.expired / b.total * 100).toFixed(1);
     const c = b.rate >= 80 ? 'var(--green)' : b.rate >= 30 ? 'var(--amber)' : 'var(--red)';
     const fc = '#10b981';
-    return `<div class="brand-row">
-      <div class="bnm" title="${b.name} · ${b.opt}"><b>${b.name}</b></div>
-      <div class="btrack">
+    const nameCls = b.is_key ? 'nm brand-name-key' : 'nm';
+    const tip = `${b.name} · ${b.opt} · 自动${b.auto} 手动${b.manual} 拒绝${b.reject} 过期${b.expired} 无操作${b.noop}`;
+    return `<tr>
+      <td class="${nameCls}" title="${tip.replace(/"/g, '&quot;')}"><b>${b.name}</b></td>
+      <td class="brand-opt-cell">${b.opt}</td>
+      <td class="r"><b style="color:${c}">${b.rate}%</b></td>
+      <td><div class="btrack btrack-cell" title="自动 ${b.auto} · 手动 ${b.manual} · 拒绝 ${b.reject} · 过期 ${b.expired} · 无操作 ${b.noop}">
         <div class="ba" style="width:${aw}%;background:${fc}"></div>
         <div class="bm" style="width:${mw}%"></div>
         <div class="br3" style="width:${rw}%"></div>
         <div class="bex" style="width:${ew}%"></div>
-      </div>
-      <div class="bpct" style="color:${c}">${b.rate}%</div>
-      <div class="bcnt">${b.total}</div>
-    </div>`;
+      </div></td>
+      <td class="r">${b.total}</td>
+      <td>${brandConclusion(b)}</td>
+    </tr>`;
   }).join('');
 }
 
