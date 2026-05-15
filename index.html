@@ -132,7 +132,16 @@ tr:hover td{background:#fafbfc}
 .rej-budget{font-size:11px;color:var(--txt3);margin-top:3px;font-variant-numeric:tabular-nums}
 .rej-tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px;background:var(--red-l);color:var(--red);margin-bottom:8px}
 .rej-body{font-size:13px;color:var(--txt2);line-height:1.7;flex:1}
+.rej-digest{font-size:13px;color:var(--txt2);line-height:1.75}
+.rej-digest .rej-lead{font-size:11px;color:var(--txt3);font-style:italic;margin-bottom:8px;line-height:1.55}
+.rej-digest .rej-themes{color:var(--txt);font-weight:500}
+.rej-digest .rej-quote{color:var(--txt)}
 .rej-num{color:var(--txt3);margin-right:5px;font-size:11px}
+.rej-details{margin-top:10px;font-size:12px;color:var(--txt3)}
+.rej-details summary{cursor:pointer;color:var(--blue);user-select:none}
+.rej-details summary:hover{text-decoration:underline}
+.rej-raw{margin-top:8px;padding:10px 12px;background:#f9fafb;border-radius:8px;border:1px solid #f3f4f6;color:var(--txt2);font-size:12px;line-height:1.65;max-height:240px;overflow-y:auto}
+.rej-raw-line{margin-bottom:7px}.rej-raw-line:last-child{margin-bottom:0}
 .rej-note{font-size:11px;color:var(--txt3);margin-top:8px;font-style:italic;line-height:1.55}
 
 /* Loading overlay */
@@ -690,6 +699,119 @@ function renderBrands(D, PD) {
 }
 
 // ── Comments / Feedback ──
+const FEEDBACK_THEME_RULES = [
+  { theme: '固定/产品结构类预算约束', test: /固定|月度预算|balance|乱套|整体.*balance|预算已设置满|没有上调预算空间/ },
+  { theme: '优先调出价（bid）', test: /提bid|\bbid\b|[Bb][Ii][Dd]|出价刺激|优先.*出价/ },
+  { theme: '关停或暂停投放', test: /关停|暂停广告|建议暂停|直接关停/ },
+  { theme: '素材层操作', test: /素材/ },
+  { theme: '成本、KPI 与达标判断', test: /成本|达标|未达标|KPI|CPA|远高于|偏高|明显下降/ },
+  { theme: '消耗、花量与预算占用', test: /花不|花满|消耗|花超|花不下去|消耗速度|花超预算/ },
+  { theme: '预算升降与幅度', test: /预算|上调|下调|降低到|增加至|调至|调整幅度|预算较低|预算已达|不增加预算/ },
+  { theme: '先观测或受冷却限制', test: /观测|观察|明日|冷却期|冷却后|暂不|应先|暂时保留|维持观察/ }
+];
+
+function escapeHtml(s) {
+  if (s == null || s === '') return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function truncateText(str, max) {
+  if (str == null) return '';
+  const s = String(str);
+  if (s.length <= max) return s;
+  return s.slice(0, max);
+}
+
+function extractRejectTexts(items) {
+  if (!items || !items.length) return [];
+  const out = [];
+  for (const raw of items) {
+    if (typeof raw !== 'string') continue;
+    const t = raw.trim();
+    if (!t) continue;
+    if (t.startsWith('[')) {
+      try {
+        const arr = JSON.parse(t);
+        if (Array.isArray(arr)) {
+          for (const o of arr) {
+            if (o && o.text) out.push(String(o.text).trim());
+          }
+        }
+      } catch (_) {
+        out.push(t);
+      }
+    } else out.push(t);
+  }
+  return out.filter(Boolean);
+}
+
+function summarizeRejectThemes(texts) {
+  const counts = {};
+  const order = [];
+  let other = 0;
+  function bump(name) {
+    if (!counts[name]) {
+      counts[name] = 0;
+      order.push(name);
+    }
+    counts[name]++;
+  }
+  for (const text of texts) {
+    let matched = false;
+    for (const { theme, test } of FEEDBACK_THEME_RULES) {
+      if (test.test(text)) {
+        bump(theme);
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) other++;
+  }
+  const parts = order.filter(k => counts[k] > 0).map(k => `${k}（${counts[k]}次）`);
+  if (other > 0) parts.push(`其他个案表述（${other}条）`);
+  return parts.join('；');
+}
+
+function buildRejectBodyHtml(r) {
+  const override = r.summary || r.digest;
+  const texts = extractRejectTexts(r.items);
+  const n = texts.length;
+
+  if (override) {
+    let inner = `<div class="rej-digest">${escapeHtml(override)}</div>`;
+    if (n > 0) {
+      const raw = texts.map((t, i) =>
+        `<div class="rej-raw-line"><span class="rej-num">${i + 1}.</span>${escapeHtml(t)}</div>`).join('');
+      inner += `<details class="rej-details"><summary>查看全部 ${n} 条原文</summary><div class="rej-raw">${raw}</div></details>`;
+    }
+    return inner;
+  }
+
+  if (n === 0) {
+    return `<div class="rej-digest">${escapeHtml(r.note || '（无明细文案）')}</div>`;
+  }
+
+  const head = r.note ? `<div class="rej-lead">💡 ${escapeHtml(r.note)}</div>` : '';
+  let inner = '';
+  if (n <= 2) {
+    inner = texts.map(t => {
+      const ex = truncateText(t, 280);
+      return `「${escapeHtml(ex)}${t.length > 280 ? '…' : ''}」`;
+    }).join('');
+  } else {
+    const themeStr = summarizeRejectThemes(texts);
+    const longest = [...texts].sort((a, b) => b.length - a.length)[0];
+    const ex = truncateText(longest, 96);
+    inner = `<b>提炼：</b><span class="rej-themes">${escapeHtml(themeStr)}</span>。代表性表述：<span class="rej-quote">「${escapeHtml(ex)}${longest.length > 96 ? '…' : ''}」</span>`;
+  }
+
+  const raw = texts.map((t, i) =>
+    `<div class="rej-raw-line"><span class="rej-num">${i + 1}.</span>${escapeHtml(t)}</div>`).join('');
+  const detailsHtml = `<details class="rej-details"${n <= 2 ? ' open' : ''}><summary>查看全部 ${n} 条原文</summary><div class="rej-raw">${raw}</div></details>`;
+
+  return `<div class="rej-digest">${head}${inner}</div>${detailsHtml}`;
+}
+
 function renderComments(D, REJECTS) {
   const fbHtml = D.feedback_html;
   document.getElementById('feedback-summary').innerHTML = fbHtml
@@ -704,8 +826,7 @@ function renderComments(D, REJECTS) {
       </div>
       <div style="flex:1">
         <div class="rej-tag">${r.tag}</div>
-        <div class="rej-body">${r.items.map((t, i) => `<div style="margin-bottom:${i < r.items.length - 1 ? '7' : '0'}px"><span class="rej-num">${i + 1}.</span>${t}</div>`).join('')}</div>
-        <div class="rej-note">💡 ${r.note}</div>
+        <div class="rej-body">${buildRejectBodyHtml(r)}</div>
       </div>
     </div>`).join('');
 
